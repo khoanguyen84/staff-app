@@ -3,8 +3,10 @@
 ### `npm install gh-pages --save-dev` install
 
 ## update script in package.json
-```scripts: {
+```json
+scripts: {
     "predeploy": "npm run build",
     "deploy" : "gh-pages -d build",
     ...
-}```
+}
+```
