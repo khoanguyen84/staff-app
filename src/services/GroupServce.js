@@ -4,4 +4,7 @@ export class GroupService{
     static getGroup(staff){
         return axios.get(`${CommonService.GROUP_API_URL}/${staff.groupId}`);
     }
+    static getGroups(){
+        return axios.get(CommonService.GROUP_API_URL);
+    }
 }
