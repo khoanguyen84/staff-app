@@ -1,5 +1,6 @@
-# Getting Started with Create React App
+# Build Staff App use react js
 
+### mockapi.co 
 ### `npm install gh-pages --save-dev` install
 
 ## update script in package.json
