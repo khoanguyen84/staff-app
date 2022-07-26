@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body{
+    background-color: #dce0e9 !important;
+}
+.avatar-md{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+.avatar-lg{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
