@@ -16,4 +16,8 @@ scripts: {
 }
 ```
 
+```
+    npm run deploy
+```
+
 
