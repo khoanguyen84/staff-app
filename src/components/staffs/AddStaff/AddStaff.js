@@ -4,11 +4,14 @@ import noAvatar from '../../../assets/images/no-avatar.jpg';
 import { StaffService } from "../../../services/StaffService";
 import Spinner from "../../Spinner/Spinner";
 import { GroupService } from './../../../services/GroupServce';
+import axios from 'axios';
+import { Toast } from "bootstrap";
+import FileUploadService from './../../../services/FileUploadService';
 function AddStaff() {
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
     const [state, setState] = useState({
         loading: false,
-        staff : {
+        staff: {
             name: '',
             avatar: '',
             mobile: '',
@@ -20,6 +23,11 @@ function AddStaff() {
         groups: [],
         errorMessage: ''
     });
+    const [avatar, setAvatar] = useState({
+        uploading: false,
+        imageFile: ""
+    });
+
     useEffect(function () {
         try {
             setState({ ...state, loading: true });
@@ -38,29 +46,47 @@ function AddStaff() {
     }, [])
     const { loading, groups, staff, errorMessage } = state;
 
-    const handleChange = function(event){
+    const handleChange = function (event) {
         event.preventDefault();
         setState({
             ...state,
             staff: {
                 ...staff,
-                [event.target.name] : event.target.value
+                [event.target.name]: event.target.value
             }
         })
     }
 
-    const handleSubmit = async function(event){
+    const handleSubmit = async function (event) {
         event.preventDefault();
         try {
-            setState({...state, loading: true});
+            setState({ ...state, loading: true });
             let resStaff = await StaffService.createStaff(staff);
-            setState({...state, loading: false});
-            if(resStaff.data){
-                navigate("/", {replace: true});
+            setState({ ...state, loading: false });
+            if (resStaff.data) {
+                navigate("/", { replace: true });
             }
         } catch (error) {
-            navigate("/staff/add", { replace: false});
+            navigate("/staff/add", { replace: false });
         }
+    }
+
+    const changeAvatar = (e) => {
+        const fakeImageUrl = URL.createObjectURL(e.target.files[0]);
+        staff.avatar = fakeImageUrl;
+        setAvatar({...avatar, imageFile: e.target.files[0]});
+    }
+    const handleUpload = () => {
+        setAvatar({...avatar, uploading: true})
+        async function uploadAvatar(){
+            let result = await FileUploadService.uploadImage(avatar.imageFile);
+            setAvatar({...avatar, 
+                imageFile: result.data.url,
+                uploading: false
+            });
+            alert("Avatar has been uploaded succeess.");
+        }
+        uploadAvatar();
     }
     return (
         <React.Fragment>
@@ -80,9 +106,9 @@ function AddStaff() {
                                         <div className="mb-2">
                                             <input onChange={handleChange} value={staff.name} type="text" className="form-control" name="name" placeholder="Name" required />
                                         </div>
-                                        <div className="mb-2">
+                                        {/* <div className="mb-2">
                                             <input onChange={handleChange} value={staff.avatar} type="url" className="form-control" name="avatar" placeholder="Avatar" required />
-                                        </div>
+                                        </div> */}
                                         <div className="mb-2">
                                             <input onChange={handleChange} value={staff.mobile} type="tel" className="form-control" name="mobile" placeholder="Mobile" required />
                                         </div>
@@ -112,7 +138,14 @@ function AddStaff() {
                                     </form>
                                 </div>
                                 <div className="col-8">
-                                    <img className="avatar-lg" src={ staff.avatar || noAvatar} alt="" />
+                                    <div className="d-flex flex-column w-50 align-items-center avatar-hover">
+                                        <img className="img-thumbnail avatar-lg" src={staff.avatar || noAvatar} alt="" onClick={() => document.querySelector("#fileAvatar").click()} />
+                                        {
+                                            avatar.uploading ? <p>Uploading Avatar</p> : 
+                                                <button className="btn btn-warning btn-sm" onClick={handleUpload}>Upload</button>
+                                        } 
+                                        <input id="fileAvatar" accept="image/*" className="form-control d-none" type="file" onChange={changeAvatar} />
+                                    </div>
                                 </div>
                             </div>
                         )

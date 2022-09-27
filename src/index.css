@@ -12,7 +12,21 @@ body{
     border-radius: 50%;
 }
 .avatar-lg{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+}
+.avatar-hover{
+    position: relative;
+    cursor: pointer;
+}
+.avatar-hover::after{
+    content: "Select Avatar";
+    position: absolute;
+    top: 0;
+    text-align: center;
+    display: none;
+    color: black;
+}
+.avatar-hover:hover::after{
+    display: block;
 }
