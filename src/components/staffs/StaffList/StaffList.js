@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { StaffService } from '../../../services/StaffService';
 import Spinner from "../../Spinner/Spinner";
+import noAvatar from '../../../assets/images/no-avatar.jpg';
 
 function StaffList() {
     const navigate = useNavigate();
@@ -76,7 +77,7 @@ function StaffList() {
                                             <div className="card-body">
                                                 <div className="row align-items-center">
                                                     <div className="col-3">
-                                                        <img className="avatar-md m-auto" src={staff.avatar} alt="" />
+                                                        <img className="avatar-md m-auto" src={staff.avatar || noAvatar} alt="" />
                                                     </div>
                                                     <div className="col-8">
                                                         <ul className="list-group">

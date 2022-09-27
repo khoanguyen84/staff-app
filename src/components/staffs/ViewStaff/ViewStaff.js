@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Spinner from "../../Spinner/Spinner";
 import { StaffService } from './../../../services/StaffService';
 import { GroupService } from './../../../services/GroupServce';
+import noAvatar from '../../../assets/images/no-avatar.jpg';
 function ViewStaff() {
     const { staffId } = useParams();
     const [state, setState] = useState({
@@ -49,7 +50,7 @@ function ViewStaff() {
                             <div className="container">
                                 <div className="row align-items-center">
                                     <div className="col-md-2">
-                                        <img className="avatar-lg" src={ staff.avatar } alt="" />
+                                        <img className="avatar-lg" src={ staff.avatar || noAvatar } alt="" />
                                     </div>
                                     <div className="col-md-10">
                                         <ul className="list-groups">
