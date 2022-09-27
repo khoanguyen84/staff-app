@@ -50,7 +50,7 @@ function ViewStaff() {
                             <div className="container">
                                 <div className="row align-items-center">
                                     <div className="col-md-2">
-                                        <img className="avatar-lg" src={ staff.avatar || noAvatar } alt="" />
+                                        <img className="w-100" src={ staff.avatar || noAvatar } alt="" />
                                     </div>
                                     <div className="col-md-10">
                                         <ul className="list-groups">

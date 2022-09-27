@@ -82,6 +82,7 @@ function AddStaff() {
                 imageFile: result.data.url,
                 uploading: false
             });
+            staff.avatar = result.data.url;
             alert("Avatar has been uploaded succeess.");
         }
         uploadAvatar();
