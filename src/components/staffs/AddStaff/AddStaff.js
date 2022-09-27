@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import noAvatar from '../../../assets/images/no-avatar.jpg';
 import { StaffService } from "../../../services/StaffService";
 import Spinner from "../../Spinner/Spinner";
@@ -75,18 +76,24 @@ function AddStaff() {
         setAvatar({...avatar, imageFile: e.target.files[0]});
     }
     const handleUpload = () => {
-        setAvatar({...avatar, uploading: true})
-        async function uploadAvatar(){
-            let result = await FileUploadService.uploadImage(avatar.imageFile);
-            setAvatar({...avatar, 
-                imageFile: result.data.url,
-                uploading: false
-            });
-            staff.avatar = result.data.url;
-            alert("Avatar has been uploaded succeess.");
+        if(avatar.imageFile){
+            setAvatar({...avatar, uploading: true})
+            async function uploadAvatar(){
+                let result = await FileUploadService.uploadImage(avatar.imageFile);
+                setAvatar({...avatar, 
+                    imageFile: result.data.url,
+                    uploading: false
+                });
+                staff.avatar = result.data.url;
+                toast.success("Avatar has been uploaded succeess.");
+            }
+            uploadAvatar();
         }
-        uploadAvatar();
+        else{
+            toast.info("Please click on avatar area to select a photo.", { autoClose: 2000 })
+        }
     }
+
     return (
         <React.Fragment>
             <section className="create-staff my-3">

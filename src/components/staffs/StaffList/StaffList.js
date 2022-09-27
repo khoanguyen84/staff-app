@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { StaffService } from '../../../services/StaffService';
 import Spinner from "../../Spinner/Spinner";
 import noAvatar from '../../../assets/images/no-avatar.jpg';
+import FileUploadService from './../../../services/FileUploadService';
 
 function StaffList() {
     const navigate = useNavigate();
@@ -28,16 +29,23 @@ function StaffList() {
             setState({ ...state, errorMessage: error.message });
         }
     }, [])
-    const handleDelete = async function(staffId){
+    const handleDelete = function(staff){
         let confirmed = window.confirm("Are you sure to remove this staff?");
         if(confirmed){
             try {
-                let resStaff = await StaffService.deleteStaff(staffId);
-                if(resStaff.data){
-                    navigate("/staff-app", {replace : true});
+                setState({ ...state, loading: true });
+                async function deleteData(){
+                    let resStaff = await StaffService.deleteStaff(staff.id);
+                    let filename = staff.avatar.split('/').pop().split('.')[0];
+                    let resDeleteImage = await FileUploadService.destroyImage(filename);
+                    if(resStaff.data){
+                        navigate("/staff-app", {replace : true});
+                    }
                 }
+                deleteData()
+                
             } catch (error) {
-                setState({ ...state, errorMessage: error.message });
+                setState({ ...state, loading: false, errorMessage: error.message });
             }
         }
     }
@@ -90,7 +98,7 @@ function StaffList() {
                                                         <div className="d-flex flex-column align-items-center">
                                                             <Link to={`/staff-app/staff/view/${staff.id}`} className="btn btn-warning btn-sm mb-1"><i className="fa fa-eye"></i></Link>
                                                             <Link to={`/staff-app/staff/edit/${staff.id}`} className="btn btn-primary btn-sm mb-1"><i className="fa fa-edit"></i></Link>
-                                                            <button onClick={()=> handleDelete(staff.id)} className="btn btn-danger btn-sm"><i className="fa fa-trash"></i></button>
+                                                            <button onClick={()=> handleDelete(staff)} className="btn btn-danger btn-sm"><i className="fa fa-trash"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -6,6 +6,10 @@
 body{
     background-color: #dce0e9 !important;
 }
+.avatar-sm{
+    width: 100px;
+    height: 100px;
+}
 .avatar-md{
     width: 130px;
     height: 130px;

@@ -4,6 +4,8 @@ import { GroupService } from './../../../services/GroupServce';
 import { StaffService } from './../../../services/StaffService';
 import noAvatar from '../../../assets/images/no-avatar.jpg';
 import Spinner from "../../Spinner/Spinner";
+import FileUploadService from './../../../services/FileUploadService';
+import { toast } from 'react-toastify';
 function EditStaff() {
     const navigate = useNavigate();
     const { staffId } = useParams();
@@ -21,6 +23,12 @@ function EditStaff() {
         groups: [],
         errorMessage: ''
     });
+    
+    const [avatar, setAvatar] = useState({
+        uploading: false,
+        imageFile: ""
+    });
+
     useEffect(function () {
         try {
             setState({ ...state, loading: true });
@@ -64,6 +72,29 @@ function EditStaff() {
             navigate(`/staff-app/staff/edit/${staffId}`, { replace: false });
         }
     }
+    const changeAvatar = (e) => {
+        const fakeImageUrl = URL.createObjectURL(e.target.files[0]);
+        staff.avatar = fakeImageUrl;
+        setAvatar({...avatar, imageFile: e.target.files[0]});
+    }
+    const handleUpload = () => {
+        if(avatar.imageFile){
+            setAvatar({...avatar, uploading: true})
+            async function uploadAvatar(){
+                let result = await FileUploadService.uploadImage(avatar.imageFile);
+                setAvatar({...avatar, 
+                    imageFile: result.data.url,
+                    uploading: false
+                });
+                staff.avatar = result.data.url;
+                toast.success("Avatar has been uploaded succeess.");
+            }
+            uploadAvatar();
+        }
+        else{
+            toast.info("Please click on avatar area to select a photo.", { autoClose: 2000 })
+        }
+    }
     return (
         <React.Fragment>
             <section className="update-staff my-3">
@@ -81,9 +112,9 @@ function EditStaff() {
                                     <div className="mb-2">
                                         <input onChange={handleChange} value={staff.name} type="text" className="form-control" name="name" placeholder="Name" required />
                                     </div>
-                                    <div className="mb-2">
+                                    {/* <div className="mb-2">
                                         <input onChange={handleChange} value={staff.avatar} type="url" className="form-control" name="avatar" placeholder="Avatar" required />
-                                    </div>
+                                    </div> */}
                                     <div className="mb-2">
                                         <input onChange={handleChange} value={staff.mobile} type="tel" className="form-control" name="mobile" placeholder="Mobile" required />
                                     </div>
@@ -113,7 +144,14 @@ function EditStaff() {
                                 </form>
                             </div>
                             <div className="col-8">
-                                <img className="avatar-lg" src={staff.avatar || noAvatar} alt="" />
+                                <div className="d-flex flex-column w-50 align-items-center avatar-hover">
+                                    <img className="img-thumbnail avatar-lg" src={staff.avatar || noAvatar} alt="" onClick={() => document.querySelector("#fileAvatar").click()} />
+                                    {
+                                        avatar.uploading ? <p>Uploading Avatar</p> :
+                                            <button className="btn btn-warning btn-sm" onClick={handleUpload}>Upload</button>
+                                    }
+                                    <input id="fileAvatar" accept="image/*" className="form-control d-none" type="file" onChange={changeAvatar} />
+                                </div>
                             </div>
                         </div>
                     )}
