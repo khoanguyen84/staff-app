@@ -64,7 +64,7 @@ function ViewStaff() {
                                 </div>
                                 <div className="row">
                                     <div className="col-md-2">
-                                        <Link to={"/"} className="btn btn-warning">Back</Link>
+                                        <Link to={"/staff-app"} className="btn btn-warning">Back</Link>
                                     </div>
                                 </div>
                             </div>

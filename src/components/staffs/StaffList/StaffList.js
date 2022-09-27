@@ -33,7 +33,7 @@ function StaffList() {
             try {
                 let resStaff = await StaffService.deleteStaff(staffId);
                 if(resStaff.data){
-                    navigate("/", {replace : true});
+                    navigate("/staff-app", {replace : true});
                 }
             } catch (error) {
                 setState({ ...state, errorMessage: error.message });
@@ -56,7 +56,7 @@ function StaffList() {
                 <div className="container">
                     <div className="d-flex align-items-center">
                         <h4>Staff Manager</h4> 
-                        <Link to={"/staff/add"} className="btn btn-primary btn-sm ms-2"><i className="fa fa-plus-circle me-1"></i>New</Link>
+                        <Link to={"/staff-app/staff/add"} className="btn btn-primary btn-sm ms-2"><i className="fa fa-plus-circle me-1"></i>New</Link>
                     </div>
                     <p className="fst-italic">Deserunt ex minim ipsum consectetur incididunt nostrud qui sunt qui. Deserunt reprehenderit quis esse dolore officia elit sit. Ad deserunt voluptate quis consectetur aliqua proident cupidatat exercitation aliqua consequat occaecat. Labore ex occaecat enim elit sit qui velit id. Qui ut sit anim excepteur ullamco ipsum. Consequat aliqua incididunt anim ex dolore.</p>
                     <div className="d-flex align-items-center">
@@ -87,8 +87,8 @@ function StaffList() {
                                                     </div>
                                                     <div className="col-1">
                                                         <div className="d-flex flex-column align-items-center">
-                                                            <Link to={`/staff/view/${staff.id}`} className="btn btn-warning btn-sm mb-1"><i className="fa fa-eye"></i></Link>
-                                                            <Link to={`/staff/edit/${staff.id}`} className="btn btn-primary btn-sm mb-1"><i className="fa fa-edit"></i></Link>
+                                                            <Link to={`/staff-app/staff/view/${staff.id}`} className="btn btn-warning btn-sm mb-1"><i className="fa fa-eye"></i></Link>
+                                                            <Link to={`/staff-app/staff/edit/${staff.id}`} className="btn btn-primary btn-sm mb-1"><i className="fa fa-edit"></i></Link>
                                                             <button onClick={()=> handleDelete(staff.id)} className="btn btn-danger btn-sm"><i className="fa fa-trash"></i></button>
                                                         </div>
                                                     </div>

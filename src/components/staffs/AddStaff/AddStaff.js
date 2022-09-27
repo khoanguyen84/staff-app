@@ -4,8 +4,6 @@ import noAvatar from '../../../assets/images/no-avatar.jpg';
 import { StaffService } from "../../../services/StaffService";
 import Spinner from "../../Spinner/Spinner";
 import { GroupService } from './../../../services/GroupServce';
-import axios from 'axios';
-import { Toast } from "bootstrap";
 import FileUploadService from './../../../services/FileUploadService';
 function AddStaff() {
     const navigate = useNavigate();
@@ -64,10 +62,10 @@ function AddStaff() {
             let resStaff = await StaffService.createStaff(staff);
             setState({ ...state, loading: false });
             if (resStaff.data) {
-                navigate("/", { replace: true });
+                navigate("/staff-app", { replace: true });
             }
         } catch (error) {
-            navigate("/staff/add", { replace: false });
+            navigate("/staff-app/staff/add", { replace: false });
         }
     }
 
@@ -133,7 +131,7 @@ function AddStaff() {
                                         </div>
                                         <div className="mb-2">
                                             <button className="btn btn-success btn-sm me-2">Create</button>
-                                            <Link to={"/"} className="btn btn-dark btn-sm">Back</Link>
+                                            <Link to={"/staff-app"} className="btn btn-dark btn-sm">Back</Link>
                                         </div>
                                     </form>
                                 </div>

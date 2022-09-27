@@ -58,10 +58,10 @@ function EditStaff() {
             let resStaff = await StaffService.updateStaff(staff, staffId);
             setState({ ...state, loading: false });
             if (resStaff.data) {
-                navigate("/", { replace: true });
+                navigate("/staff-app", { replace: true });
             }
         } catch (error) {
-            navigate(`/staff/edit/${staffId}`, { replace: false });
+            navigate(`/staff-app/staff/edit/${staffId}`, { replace: false });
         }
     }
     return (
@@ -108,7 +108,7 @@ function EditStaff() {
                                     </div>
                                     <div className="mb-2">
                                         <button className="btn btn-primary btn-sm me-2">Update</button>
-                                        <Link to={"/"} className="btn btn-dark btn-sm">Back</Link>
+                                        <Link to={"/staff-app"} className="btn btn-dark btn-sm">Back</Link>
                                     </div>
                                 </form>
                             </div>

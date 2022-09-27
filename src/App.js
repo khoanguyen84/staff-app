@@ -12,12 +12,12 @@ function App() {
     <React.Fragment>
       <Navbar/>
       <Routes>
-          <Route path='/staff-app' element={<Navigate to={'/staff/list'}/>} ></Route>
-          <Route path='/' element={<Navigate to={'/staff/list'}/>} ></Route>
-          <Route path='/staff/list' element={<StaffList/>} ></Route>
-          <Route path='/staff/add' element={<AddStaff/>} ></Route>
-          <Route path='/staff/edit/:staffId' element={<EditStaff/>} ></Route>
-          <Route path='/staff/view/:staffId' element={<ViewStaff/>} ></Route>
+          <Route path='/staff-app' element={<Navigate to={'/staff-app/staff/list'}/>} ></Route>
+          <Route path='/' element={<Navigate to={'/staff-app/staff/list'}/>} ></Route>
+          <Route path='/staff-app/staff/list' element={<StaffList/>} ></Route>
+          <Route path='/staff-app/staff/add' element={<AddStaff/>} ></Route>
+          <Route path='/staff-app/staff/edit/:staffId' element={<EditStaff/>} ></Route>
+          <Route path='/staff-app/staff/view/:staffId' element={<ViewStaff/>} ></Route>
       </Routes>
     </React.Fragment>
   );
