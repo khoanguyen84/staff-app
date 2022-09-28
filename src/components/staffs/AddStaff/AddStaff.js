@@ -128,7 +128,7 @@ function AddStaff() {
                                             <input onChange={handleChange} value={staff.title} type="text" className="form-control" name="title" placeholder="Title" required />
                                         </div>
                                         <div className="mb-2">
-                                            <select onChange={handleChange} className="form-control" name="groupId" value={staff.groupId} defaultValue="0" defaultChecked="0">
+                                            <select onChange={handleChange} className="form-control" name="groupId" value={staff.groupId}>
                                                 <option value="0" key="0" disabled>Select a group</option>
                                                 {
                                                     groups.map(group => (

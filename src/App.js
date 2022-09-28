@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,8 +15,7 @@ function App() {
       <Navbar />
       <ToastContainer autoClose={1000}/>
       <Routes>
-        <Route path='/staff-app' element={<Navigate to={'/staff-app/staff/list'} />} ></Route>
-        <Route path='/' element={<Navigate to={'/staff-app/staff/list'} />} ></Route>
+        <Route path='/staff-app' element={<StaffList />} ></Route>
         <Route path='/staff-app/staff/list' element={<StaffList />} ></Route>
         <Route path='/staff-app/staff/add' element={<AddStaff />} ></Route>
         <Route path='/staff-app/staff/edit/:staffId' element={<EditStaff />} ></Route>
