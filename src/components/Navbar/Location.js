@@ -37,7 +37,6 @@ function Location() {
     const handleChange = async (e) => {
         if (e.target.name === "province_id") {
             let province_value = e.target.value;
-            console.log(province_value)
             let resDistricts = await axios.get(`https://vapi.vnappmob.com/api/province/district/${province_value}`);
             let first_district_id = resDistricts.data.results[0].district_id;
             setSelect({

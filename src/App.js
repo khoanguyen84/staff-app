@@ -8,6 +8,7 @@ import AddStaff from './components/staffs/AddStaff/AddStaff';
 import EditStaff from './components/staffs/EditStaff/EditStaff';
 import StaffList from './components/staffs/StaffList/StaffList';
 import ViewStaff from './components/staffs/ViewStaff/ViewStaff';
+import Location from './components/Navbar/Location';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/staff-app/staff/add' element={<AddStaff />} ></Route>
         <Route path='/staff-app/staff/edit/:staffId' element={<EditStaff />} ></Route>
         <Route path='/staff-app/staff/view/:staffId' element={<ViewStaff />} ></Route>
+        <Route path='/staff-app/location' element={<Location />} ></Route>
       </Routes>
     </React.Fragment>
   );
