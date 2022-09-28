@@ -1,5 +1,5 @@
 import React from "react";
-import ImageSpinner from '../../assets/images/spinner.gif';
+import ImageSpinner from '../../assets/images/loading.gif';
 function Spinner(){
     return (
         <div className="d-flex">
