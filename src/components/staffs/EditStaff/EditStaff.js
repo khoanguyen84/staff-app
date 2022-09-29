@@ -6,6 +6,8 @@ import noAvatar from '../../../assets/images/no-avatar.jpg';
 import Spinner from "../../Spinner/Spinner";
 import FileUploadService from './../../../services/FileUploadService';
 import { toast } from 'react-toastify';
+
+let current_avatar = "";
 function EditStaff() {
     const navigate = useNavigate();
     const { staffId } = useParams();
@@ -23,7 +25,7 @@ function EditStaff() {
         groups: [],
         errorMessage: ''
     });
-    
+
     const [avatar, setAvatar] = useState({
         uploading: false,
         imageFile: ""
@@ -35,6 +37,7 @@ function EditStaff() {
             async function fetchGroups() {
                 let resGroup = await GroupService.getGroups();
                 let resStaff = await StaffService.getStaff(staffId);
+                current_avatar = resStaff.data.avatar;
                 setState({
                     ...state,
                     groups: resGroup.data,
@@ -45,6 +48,15 @@ function EditStaff() {
             fetchGroups();
         } catch (error) {
             setState({ ...state, errorMessage: error.message });
+        }
+        return () => {
+            if(staff.avatar !== current_avatar){
+                async function deleteData(){
+                    let filename = current_avatar.split('/').pop().split('.')[0];
+                    await FileUploadService.destroyImage(filename);
+                }
+                deleteData()
+            }
         }
     }, [])
     const { loading, groups, staff, errorMessage } = state;
@@ -75,14 +87,15 @@ function EditStaff() {
     const changeAvatar = (e) => {
         const fakeImageUrl = URL.createObjectURL(e.target.files[0]);
         staff.avatar = fakeImageUrl;
-        setAvatar({...avatar, imageFile: e.target.files[0]});
+        setAvatar({ ...avatar, imageFile: e.target.files[0] });
     }
     const handleUpload = () => {
-        if(avatar.imageFile){
-            setAvatar({...avatar, uploading: true})
-            async function uploadAvatar(){
+        if (avatar.imageFile) {
+            setAvatar({ ...avatar, uploading: true })
+            async function uploadAvatar() {
                 let result = await FileUploadService.uploadImage(avatar.imageFile);
-                setAvatar({...avatar, 
+                setAvatar({
+                    ...avatar,
                     imageFile: result.data.url,
                     uploading: false
                 });
@@ -91,7 +104,7 @@ function EditStaff() {
             }
             uploadAvatar();
         }
-        else{
+        else {
             toast.info("Please click on avatar area to select a photo.", { autoClose: 2000 })
         }
     }
@@ -147,7 +160,12 @@ function EditStaff() {
                                 <div className="d-flex flex-column w-50 align-items-center avatar-hover">
                                     <img className="img-thumbnail avatar-lg" src={staff.avatar || noAvatar} alt="" onClick={() => document.querySelector("#fileAvatar").click()} />
                                     {
-                                        avatar.uploading ? <p>Uploading Avatar</p> :
+                                        avatar.uploading ? (
+                                            <button class="btn btn-warning btn-sm" type="button" disabled>
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        ) :
                                             <button className="btn btn-warning btn-sm" onClick={handleUpload}>Upload</button>
                                     }
                                     <input id="fileAvatar" accept="image/*" className="form-control d-none" type="file" onChange={changeAvatar} />

@@ -42,6 +42,15 @@ function AddStaff() {
         } catch (error) {
             setState({ ...state, errorMessage: error.message });
         }
+        return () => {
+            if(staff.avatar){
+                async function deleteData(){
+                    let filename = staff.avatar.split('/').pop().split('.')[0];
+                    await FileUploadService.destroyImage(filename);
+                }
+                deleteData()
+            }
+        }
     }, [])
     const { loading, groups, staff, errorMessage } = state;
 
@@ -73,23 +82,24 @@ function AddStaff() {
     const changeAvatar = (e) => {
         const fakeImageUrl = URL.createObjectURL(e.target.files[0]);
         staff.avatar = fakeImageUrl;
-        setAvatar({...avatar, imageFile: e.target.files[0]});
+        setAvatar({ ...avatar, imageFile: e.target.files[0] });
     }
     const handleUpload = () => {
-        if(avatar.imageFile){
-            setAvatar({...avatar, uploading: true})
-            async function uploadAvatar(){
+        if (avatar.imageFile) {
+            setAvatar({ ...avatar, uploading: true })
+            async function uploadAvatar() {
                 let result = await FileUploadService.uploadImage(avatar.imageFile);
-                setAvatar({...avatar, 
+                staff.avatar = result.data.url;
+                setAvatar({
+                    ...avatar,
                     imageFile: result.data.url,
                     uploading: false
                 });
-                staff.avatar = result.data.url;
                 toast.success("Avatar has been uploaded succeess.");
             }
             uploadAvatar();
         }
-        else{
+        else {
             toast.info("Please click on avatar area to select a photo.", { autoClose: 2000 })
         }
     }
@@ -147,9 +157,15 @@ function AddStaff() {
                                     <div className="d-flex flex-column w-50 align-items-center avatar-hover">
                                         <img className="img-thumbnail avatar-lg" src={staff.avatar || noAvatar} alt="" onClick={() => document.querySelector("#fileAvatar").click()} />
                                         {
-                                            avatar.uploading ? <p>Uploading Avatar</p> : 
+                                            avatar.uploading ? (
+                                                <button className="btn btn-warning btn-sm" type="button" disabled>
+                                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    Loading...
+                                                </button>
+                                            ) :
                                                 <button className="btn btn-warning btn-sm" onClick={handleUpload}>Upload</button>
-                                        } 
+                                        }
+
                                         <input id="fileAvatar" accept="image/*" className="form-control d-none" type="file" onChange={changeAvatar} />
                                     </div>
                                 </div>

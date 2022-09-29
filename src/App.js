@@ -14,19 +14,19 @@ function App() {
   return (
     <React.Fragment>
       <Navbar />
-      <ToastContainer autoClose={1000}/>
+      <ToastContainer autoClose={1000} />
       <Routes>
         <Route path='/staff-app' element={<StaffList />} ></Route>
+        <Route path='/staff-app/staff/location' element={<Location />} ></Route>
         <Route path='/staff-app/staff/list' element={<StaffList />} ></Route>
         <Route path='/staff-app/staff/add' element={<AddStaff />} ></Route>
         <Route path='/staff-app/staff/edit/:staffId' element={<EditStaff />} ></Route>
         <Route path='/staff-app/staff/view/:staffId' element={<ViewStaff />} ></Route>
-        <Route path='/staff-app/location' element={<Location />} ></Route>
       </Routes>
     </React.Fragment>
   );
 
-  
+
 }
 
 export default App;
