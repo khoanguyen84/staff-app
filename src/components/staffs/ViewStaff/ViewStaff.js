@@ -21,7 +21,7 @@ function ViewStaff() {
                 setState({
                     ...state,
                     staff: resStaff.data,
-                    group : resGroup.data,
+                    group : resGroup.data, //resStaff.data.group,
                     loading: false
                 })
             }

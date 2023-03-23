@@ -17,7 +17,11 @@ function AddStaff() {
             email: '',
             company: '',
             title: '',
-            groupId: '0'
+            groupId: '0',
+            group: {
+                id: 0,
+                groupName: ""
+            }
         },
         groups: [],
         errorMessage: ''
@@ -69,6 +73,14 @@ function AddStaff() {
         event.preventDefault();
         try {
             setState({ ...state, loading: true });
+            let group = {
+                id : parseInt(staff.groupId),
+                groupName: 
+                document.getElementsByName("groupId")[0].options[document.getElementsByName("groupId")[0].selectedIndex].text
+            }
+            staff.groupId = parseInt(staff.groupId);
+            staff.group = group;
+            console.log(staff);
             let resStaff = await StaffService.createStaff(staff);
             setState({ ...state, loading: false });
             if (resStaff.data) {
