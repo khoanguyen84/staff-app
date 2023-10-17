@@ -104,7 +104,7 @@ function AddStaff() {
                 staff.avatar = result.data.url;
                 setAvatar({
                     ...avatar,
-                    imageFile: result.data.url,
+                    imageFile: result.data.secure_url,
                     uploading: false
                 });
                 toast.success("Avatar has been uploaded succeess.");
